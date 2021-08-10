@@ -1,0 +1,16 @@
+{
+  "bracketSpacing": true,
+  "printWidth": 100,
+  "semi": false,
+  "singleQuote": true,
+  "trailingComma": "all",
+  "htmlWhitespaceSensitivity": "ignore",
+  "overrides": [
+    {
+      "files": "*.vue",
+      "options": {
+        "printWidth": 100
+      }
+    }
+  ]
+}

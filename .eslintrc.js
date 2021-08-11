@@ -14,4 +14,7 @@ module.exports = {
     node: true,
   },
   ignorePatterns: ['dist', 'node_modules'],
+  rules: {
+    '@typescript-eslint/explicit-module-boundary-types': 'off',
+  },
 }

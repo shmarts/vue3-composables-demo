@@ -514,6 +514,11 @@ astral-regex@^2.0.0:
   resolved "https://registry.yarnpkg.com/astral-regex/-/astral-regex-2.0.0.tgz#483143c567aeed4785759c0865786dc77d7d2e31"
   integrity sha512-Z7tMw1ytTXt5jqMcOP+OQteU1VuNK9Y02uuJtKQ1Sv69jXQKKg5cibLwGJow8yzZP+eAc18EmLGPal0bp36rvQ==
 
+async-validator@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/async-validator/-/async-validator-4.0.1.tgz#5cf3525036efe5a74c0d4167207659829fd7b11c"
+  integrity sha512-jA1y7iZeT5vm9MM4RepKRJPTxKGPOSFijdoGRXMm6kLMgj9xiXn53TYlLquLKawK+m8/5zukzL0X3HwdXR9b3A==
+
 autoprefixer@^10.3.1:
   version "10.3.1"
   resolved "https://registry.yarnpkg.com/autoprefixer/-/autoprefixer-10.3.1.tgz#954214821d3aa06692406c6a0a9e9d401eafbed2"

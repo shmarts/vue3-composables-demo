@@ -2,7 +2,7 @@ import { createApp } from 'vue'
 import 'vue-global-api'
 import { createRouter, createWebHistory } from 'vue-router'
 
-import UseWindow from './routes/UseWindow.vue'
+import After from './routes/After.vue'
 
 import App from './App.vue'
 import './index.css'
@@ -10,8 +10,8 @@ import './index.css'
 const router = createRouter({
   history: createWebHistory(),
   routes: [
-    { path: '/use-window', component: UseWindow },
-    { path: '/use-window-2', component: UseWindow },
+    { path: '/before', component: After },
+    { path: '/after', component: After },
   ],
 })
 

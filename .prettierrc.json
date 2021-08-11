@@ -1,15 +1,16 @@
 {
   "bracketSpacing": true,
-  "printWidth": 100,
+  "printWidth": 120,
   "semi": false,
   "singleQuote": true,
   "trailingComma": "all",
   "htmlWhitespaceSensitivity": "ignore",
+  "endOfLine": "auto",
   "overrides": [
     {
       "files": "*.vue",
       "options": {
-        "printWidth": 100
+        "printWidth": 140
       }
     }
   ]

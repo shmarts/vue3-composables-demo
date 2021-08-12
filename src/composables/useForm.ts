@@ -2,20 +2,19 @@ import type { ComputedRef, WritableComputedRef } from 'vue'
 import type { RuleItem, ValidateError } from 'async-validator'
 import Validator from 'async-validator'
 
-export type FieldRules = RuleItem
+type FieldRules = RuleItem
 
-export type FieldValues<Fields> = {
+type FieldValues<Fields> = {
   [K in keyof Fields]: Fields[K]
 }
 
-export interface Field<T> {
-  errors: ComputedRef<ValidateError[]>
+interface Field<T> {
+  value: WritableComputedRef<T>
   error: ComputedRef<ValidateError | null>
   hasError: ComputedRef<boolean>
-  value: WritableComputedRef<T>
 }
 
-export function useForm<Fields>() {
+export default <Fields>() => {
   // helper types
   type Keys = keyof Fields
   type FieldStore = { [K in Keys]: Fields[K] }
@@ -38,6 +37,33 @@ export function useForm<Fields>() {
     { deep: true },
   )
 
+  // returns the refs related to a specific Field
+  const useField = <K extends Keys>(name: K, fieldOptions: FieldRules = {}) => {
+    // set up the fields dependencies
+    if (!errors.value[name]) errors.value[name] = []
+    if (!fields.value[name]) fields.value[name] = ''
+    validators.value[name] = fieldOptions
+
+    // computed getter/setter for the field
+    const value = computed<Fields[K]>({
+      get: () => fields.value[name],
+      set: (val) => (fields.value[name] = val),
+    })
+
+    // computeds for fetching the current error/s
+    const fieldError = computed(() => {
+      const fieldErrors = errors.value[name]
+      return fieldErrors.length > 0 ? fieldErrors[0] : null
+    })
+    const fieldHasError = computed(() => fieldError.value !== null)
+
+    return reactive<Field<Fields[K]>>({
+      value,
+      error: fieldError,
+      hasError: fieldHasError,
+    })
+  }
+
   // validates all of the relevant fields
   const validate = async () =>
     new Promise((resolve) => {
@@ -53,45 +79,6 @@ export function useForm<Fields>() {
         resolve(false)
       })
     })
-
-  // returns the refs related to a specific Field
-  const useField = <K extends Keys>(name: K, fieldOptions: FieldRules = {}) => {
-    if (!errors.value[name]) {
-      errors.value[name] = []
-    }
-
-    // append the Validator config
-    validators.value[name] = fieldOptions
-
-    // assign a default value
-    if (!fields.value[name]) {
-      fields.value[name] = ''
-    }
-
-    // computed property for getting and setting the value of the field
-    const value = computed<Fields[K]>({
-      get() {
-        return fields.value[name]
-      },
-      set(val) {
-        fields.value[name] = val
-      },
-    })
-
-    // computed property for fetching the current error(s)
-    const fieldErrors = computed<ValidateError[]>(() => errors.value[name] ?? [])
-    const fieldError = computed(() => {
-      return fieldErrors.value.length > 0 ? fieldErrors.value[0] : null
-    })
-    const fieldHasError = computed(() => fieldError.value !== null)
-
-    return reactive<Field<Fields[K]>>({
-      errors: fieldErrors,
-      error: fieldError,
-      hasError: fieldHasError,
-      value,
-    })
-  }
 
   // clears all errors
   const clearErrors = () => {
@@ -109,10 +96,9 @@ export function useForm<Fields>() {
     clearErrors()
 
     const valid = await validate()
+    if (!valid) return
 
-    if (valid) {
-      await run(fields.value as FieldValues<Fields>)
-    }
+    await run(fields.value as FieldValues<Fields>)
   }
 
   return {

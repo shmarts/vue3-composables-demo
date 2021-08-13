@@ -13,12 +13,6 @@ const responseFromServer = ref()
 const submit = handle(async (form) => {
   responseFromServer.value = `Success, thank you ${form.name}!`
 })
-
-defineExpose({
-  name,
-  submit,
-  responseFromServer,
-})
 </script>
 
 <template>

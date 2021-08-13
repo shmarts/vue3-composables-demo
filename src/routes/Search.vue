@@ -22,13 +22,6 @@ const selectUser = (user: User) => {
   query.value = ''
   clearResults()
 }
-
-defineExpose({
-  query,
-  users,
-  selectUser,
-  selectedUser,
-})
 </script>
 
 <template>
